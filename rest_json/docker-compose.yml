@@ -1,0 +1,11 @@
+version: '3.7'
+
+services:
+  back:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: back
+    ports:
+      - "8000:8000"
+    restart: unless-stopped

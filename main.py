@@ -23,7 +23,7 @@ def get_patients():
 def create_patient(patient: Patient):
     # Ex2: only accept 91 as department
     if patient.ssn[5:7] != "91":
-        raise HTTPException(status_code=400, detail="Department must be Essonne (91)")
+        raise HTTPException(status_code=400, detail="Department must be Essonne (91)!")
 
     try:
         serializedModel = patient.model_dump()
