@@ -15,7 +15,7 @@ class Patient(BaseModel):
     # # Example value : 102069122233344
     @field_validator('ssn')
     @classmethod
-    def ssn_validator(cls, v: str) -> str:
+    def ssn_validator(self, v: str) -> str:
         if len(v) != 15:
             raise ValueError('must be 15 digits')
         # Sex check

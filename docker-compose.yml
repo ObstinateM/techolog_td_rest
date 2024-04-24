@@ -1,12 +1,14 @@
 version: '3.7'
 
 services:
-  mongodb:
+  db:
+    # docker run --name mongodb mongo:latest
     image: mongo:latest
     container_name: mongodb
-    restart: unless-stopped
     
   back:
+    # docker build -f Dockerfile .
+    # docker run abc --name back -p 8000:8000
     build:
       context: .
       dockerfile: Dockerfile
@@ -14,5 +16,7 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - mongodb
-    restart: unless-stopped
+      - db
+
+# Pour lancer : docker compose up --build
+# Pour eteindre : docker compose down

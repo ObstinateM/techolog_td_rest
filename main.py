@@ -5,7 +5,7 @@ from pydantic import  ValidationError
 from patient import Patient, PatientWithOnlyName
 
 app = FastAPI()
-client = MongoClient("mongodb://127.0.0.1:27017")
+client = MongoClient("mongodb://localhost:27017")
 db = client.patient_db
 patients_collection = db.patients
 
@@ -14,7 +14,7 @@ def hello_world():
     return "Hello world!"
 
 
-@app.get("/patients", response_model=List[Patient])
+@app.get("/patients")
 def get_patients():
     return list(patients_collection.find())
 
@@ -25,11 +25,11 @@ def create_patient(patient: Patient):
     if patient.ssn[5:7] != "91":
         raise HTTPException(status_code=400, detail="Department must be Essonne (91)!")
 
-    try:
-        serializedModel = patient.model_dump()
-    except ValidationError as e:
-        raise HTTPException(status_code=400, detail=str(e))
-    patients_collection.insert_one(serializedModel)
+    # try:
+    #     serializedModel = patient.model_dump()
+    # except ValidationError as e:
+    #     raise HTTPException(status_code=400, detail=str(e))
+    patients_collection.insert_one(patient)
     return "Patient created successfully!"
 
 
@@ -83,7 +83,7 @@ def update_patient(ssn: str, patient: Patient):
     except ValidationError as e:
         raise HTTPException(status_code=400, detail=str(e))
     
-    patients_collection.update_one({"ssn": ssn}, {"$set": serializedModel})
+    patients_collection.update_one({"ssn": ssn}, {"$set": patient})
     return "Patient updated successfully!"
 
 
