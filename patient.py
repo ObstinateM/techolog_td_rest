@@ -7,15 +7,15 @@ class Patient(BaseModel):
 
     @field_validator('first_name', "last_name")
     @classmethod
-    def name_must_contain_space(cls, v: str) -> str:
+    def name_must_not_contain_space(cls, v: str) -> str:
         if ' ' in v:
             raise ValueError('must not contain a space')
         return v.title()
     
-    # Example value : 102069122233344
+    # # Example value : 102069122233344
     @field_validator('ssn')
     @classmethod
-    def ssn_must_be_15_digits(cls, v: str) -> str:
+    def ssn_validator(cls, v: str) -> str:
         if len(v) != 15:
             raise ValueError('must be 15 digits')
         # Sex check

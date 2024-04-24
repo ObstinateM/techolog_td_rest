@@ -16,7 +16,7 @@ def hello_world():
 
 @app.get("/patients", response_model=List[Patient])
 def get_patients():
-    return list(patients_collection.find({}))
+    return list(patients_collection.find())
 
 
 @app.post("/patients")
